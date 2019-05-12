@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SupprimerActivity"></activity>
+        <activity android:name=".ModifAfficherActivity"></activity>
+        <activity android:name=".SupprimerActivity" />
         <activity android:name=".ModifierActivity" />
         <activity android:name=".AfficherActivity" />
         <activity android:name=".AjouterActivity" />

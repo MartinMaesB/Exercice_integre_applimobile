@@ -3,6 +3,7 @@ package example.com.myapplication;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ public class SupprimerActivity extends AppCompatActivity {
     private EditText etActivite;
     private Button confirmer;
 
+    boolean x=true;
     final Calendar myCalendar = Calendar.getInstance();
 
 
@@ -35,7 +37,7 @@ public class SupprimerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_supprimer);
-        setContentView(R.layout.activity_ajouter);db = openOrCreateDatabase(DB_NAME, Context.MODE_PRIVATE, null);
+        db = openOrCreateDatabase(DB_NAME, Context.MODE_PRIVATE, null);
         db.execSQL("CREATE TABLE IF NOT EXISTS "+ TABLE_NAME+ " (id INTEGER PRIMARY KEY AUTOINCREMENT," +" date TEXT, nombreH NUMBER, activite TEXT);");
         //t_debug.append("DB is CREATED. ").append("Path: ").append(DB_NAME).append(" Table: ").append(TABLE_NAME).append("\n");
         //Toast.makeText(getApplicationContext(),t_debug,Toast.LENGTH_LONG).show();
@@ -78,15 +80,21 @@ public class SupprimerActivity extends AppCompatActivity {
                                                  int heure = Integer.valueOf(etHeure.getText().toString());
                                                  String activite = etActivite.getText().toString();
 
+                                                 Cursor c = db.query(TABLE_NAME, new String[] { "date", "nombreH",
+                                                                 "activite" }, "date LIKE \"" + date + "\" AND nombreH LIKE \"" + heure + "\" AND activite LIKE \"" + activite + "\"", null, null,
+                                                         null, "date");
 
+                                                 if(cursorToLivre(c)){
+                                                     db.delete(TABLE_NAME, "date LIKE \"" + date +"\" AND nombreH LIKE \"" + heure + "\" AND activite LIKE \"" + activite + "\"", null);
+                                                     db.close();
+                                                     Toast.makeText(getApplicationContext(),"Entrée retirée avec succès",Toast.LENGTH_LONG).show();
+                                                     Intent intentt = new Intent(SupprimerActivity.this, MainActivity.class);
+                                                     startActivity(intentt);
+                                                 }
+                                                 else{
+                                                     Toast.makeText(getApplicationContext(),"Aucune entrée de la base de donnée ne possède ces caractéristiques",Toast.LENGTH_LONG).show();
+                                                 }
 
-
-
-                                                 db.execSQL("INSERT INTO PROJET (date, nombreH, activite) " +
-                                                         "VALUES ('"+date+"','"+heure+"','"+activite+"')",new String[]{});
-                                                 db.close();
-                                                 Intent intentt = new Intent(SupprimerActivity.this, MainActivity.class);
-                                                 startActivity(intentt);
 
                                              }
                                              else Toast.makeText(getApplicationContext(),"Vous n'avez pas rempli tous les champs",Toast.LENGTH_LONG).show();
@@ -101,6 +109,14 @@ public class SupprimerActivity extends AppCompatActivity {
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         etDate.setText(sdf.format(myCalendar.getTime()));
+
     }
+    public boolean cursorToLivre(Cursor c) {
+        if (c.getCount() == 0) {
+         c.close();
+            return false;
+        }
+        c.close();
+        return true;}
 }
 

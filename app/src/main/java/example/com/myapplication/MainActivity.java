@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         modifier.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent intentt=new Intent(MainActivity.this, ModifierActivity.class);
+                Intent intentt=new Intent(MainActivity.this, ModifAfficherActivity.class);
                 startActivity(intentt);
             }
         });
