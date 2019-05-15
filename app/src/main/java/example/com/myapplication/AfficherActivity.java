@@ -23,6 +23,7 @@ public class AfficherActivity extends AppCompatActivity {
     Cursor c = null;
     TextView activite;
     TextView nmbre;
+    ArrayList<Integer> id= new ArrayList<Integer>();
     ArrayList<String> nomsActivite = new ArrayList<String> ();
     ArrayList<String> dates = new ArrayList<String>();
     ArrayList<Integer> nbr = new ArrayList<Integer>();
@@ -47,9 +48,9 @@ public class AfficherActivity extends AppCompatActivity {
                 startActivity(intentt);
             }
         });
-        Cursor c = db.query(TABLE_NAME, new String[] { "date", "nombreH",
-                        "activite" }, null, null, null,
-                null, "date");
+
+        Cursor c = db.query(TABLE_NAME, new String[] { "id","date", "nombreH", "activite" }, null, null, null, null, "id");
+
         if (c.getCount() == 0) {
             c.close();
             Toast.makeText(getApplicationContext(),"Il n'y a aucun élément dans la base de données",Toast.LENGTH_LONG).show();
@@ -58,14 +59,15 @@ public class AfficherActivity extends AppCompatActivity {
 
 
             while (c.moveToNext()) {
-                dates.add(c.getString(0));
-                nbr.add(c.getInt(1));
-                nomsActivite.add(c.getString(2));
+                id.add(c.getInt(0));
+                dates.add(c.getString(1));
+                nbr.add(c.getInt(2));
+                nomsActivite.add(c.getString(3));
             }
 
 
             for(int i=0;i<nomsActivite.size();i++){
-                sb.append("Activité " + (i+1) + " : " + nomsActivite.get(i)+" ");
+                sb.append("Numéro "+id.get(i)+" :      Nom: "+ nomsActivite.get(i)+",   heures: "+nbr.get(i)+",   Date: "+dates.get(i));
                 sb.append("\n");
                 nombreDheures=nombreDheures+nbr.get(i);
             }

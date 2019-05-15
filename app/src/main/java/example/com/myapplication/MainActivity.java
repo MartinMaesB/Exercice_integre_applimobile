@@ -56,22 +56,3 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
-
-
-
-
-
-   /*
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        btn=(Button)findViewById(R.id.button);
-        nextIntent=(Button)findViewById(R.id.button2);
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                    Intent intentt = new Intent(MainActivity.this, Main2Activity.class);
-                    startActivity(intentt);
-                    Toast.makeText(getApplicationContext(),"Mauvais mot de passe/username",Toast.LENGTH_LONG).show();
-      */

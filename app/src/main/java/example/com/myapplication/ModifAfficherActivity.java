@@ -42,8 +42,8 @@ public class ModifAfficherActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Integer.valueOf(numéro.getText().toString())<=id.size()&&Integer.valueOf(numéro.getText().toString())>0){
-
+                if(id.contains(Integer.valueOf(numéro.getText().toString()))){
+                    //Integer.valueOf(numéro.getText().toString())<=id.size()&&Integer.valueOf(numéro.getText().toString())>0
                     Intent intentt = new Intent(ModifAfficherActivity.this, ModifierActivity.class);
 
                     intentt.putExtra("ID",numéro.getText().toString());
@@ -75,11 +75,11 @@ public class ModifAfficherActivity extends AppCompatActivity {
                 sb.append("\n");
             }
             affiche.setText(sb.toString());
-            c.close();
-        }
+
         db.close();
 
 
 
-    }
+    }     c.close();
+}
 }
